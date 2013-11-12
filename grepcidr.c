@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "getopt.h"
+#include <regex.h>
 
 #define EXIT_OK		0
 #define EXIT_NOMATCH	1
@@ -164,6 +165,7 @@ int main(int argc, char* argv[])
 	char line[MAXFIELD];
 	int foundopt;
 	int anymatch = 0;			/* did anything match? for exit code */
+	static regex_t preg;			/* compiled regular expression for IPs */
 
 	if (argc == 1)
 	{
@@ -272,22 +274,35 @@ int main(int argc, char* argv[])
 		}
 	}
 	
+	/* Compile the regular expression for matching IP addresses */
+	if (regcomp(&preg, "[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+", REG_EXTENDED) != 0)
+	{
+		(void)fputs("regcomp() failed\n", stderr);
+		return EXIT_ERROR;
+	}
+
 	/* Match IPs from input stream to network patterns */
 	while (fgets(line, sizeof(line), inp_stream))
 	{
 		struct netspec key;
-		if ((key.min=ip_to_uint(line)))
+		regoff_t offset;
+		regmatch_t pmatch;
+		for (offset = 0; regexec(&preg, &line[offset], 1, &pmatch, 0) == 0; offset += pmatch.rm_eo)
 		{
-			int match = 0;
-			if (bsearch(&key, array, patterns, sizeof(struct netspec), netsearch))
-				match = 1;
-			if (invert ^ match)
+			if ((key.min=ip_to_uint(&line[offset + pmatch.rm_so])))
 			{
-				anymatch = 1;
-				if (counting)
-					counting++;
-				else
-					printf("%s", line);
+				int match = 0;
+				if (bsearch(&key, array, patterns, sizeof(struct netspec), netsearch))
+					match = 1;
+				if (invert ^ match)
+				{
+					anymatch = 1;
+					if (counting)
+						counting++;
+					else
+						printf("%s", line);
+					break;
+				}
 			}
 		}
 	}
@@ -297,6 +312,7 @@ int main(int argc, char* argv[])
 		fclose(inp_stream);
 	if (array)
 		free(array);
+	regfree(&preg);
 
 	if (counting)
 		printf("%u\n", counting-1);
