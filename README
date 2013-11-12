@@ -1,0 +1,69 @@
+grepcidr 1.3 - Filter IP addresses matching IPv4 CIDR specification
+Copyright (C) 2004-2005  Jem E. Berkes <jberkes@pc-tools.net>
+	http://www.pc-tools.net/unix/grepcidr/
+	http://www.sysdesign.ca/
+
+
+PURPOSE
+-------
+grepcidr can be used to filter a list of IP addresses against one or more
+Classless Inter-Domain Routing (CIDR) specifications, or arbitrary networks
+specified by an address range. As with grep, there are options to invert
+matching and load patterns from a file. grepcidr is capable of comparing
+thousands or even millions of IPs to networks with little memory usage and
+in reasonable computation time.
+
+grepcidr has endless uses in network software, including: mail filtering and
+processing, network security, log analysis, and many custom applications.
+
+Many thanks to Dick Wesseling <ftu@fi.uu.nl> who suggested an improved data
+structure format as well as binary search, to improve grepcidr performance.
+
+
+COMPILING & INSTALLING
+----------------------
+Edit Makefile to customize the build. Then,
+make
+make install
+
+
+COMMAND USAGE
+-------------
+Usage:
+        grepcidr [-V] [-c] [-v] PATTERN [FILE]
+        grepcidr [-V] [-c] [-v] [-e PATTERN | -f FILE] [FILE]
+
+-V	Show software version
+-c	Display count of the matching lines, instead of showing the lines
+-v	Invert the sense of matching, to select non-matching IP addresses
+-e	Specify pattern(s) on command-line
+-f	Obtain CIDR and range pattern(s) from file
+
+PATTERN specified on the command line may contain multiple patterns
+separated by whitespace or commas. For long lists of network patterns,
+specify a -f FILE to load where each line contains one pattern. Comment
+lines starting with # are ignored, as are any lines that don't parse.
+
+Each pattern, whether on the command line or inside a file, may be:
+CIDR format	a.b.c.d/xx
+IP range	a.b.c.d-e.f.g.h
+Single IP	a.b.c.d
+
+
+EXAMPLES
+--------
+
+grepcidr -f ournetworks blocklist > abuse.log
+	Find our customers that show up in blocklists
+
+grepcidr 127.0.0.0/8 iplog
+	Searches for any localnet IP addresses inside the iplog file
+
+grepcidr "192.168.0.1-192.168.10.13" iplog
+	Searches for IPs matching indicated range in the iplog file
+
+script | grepcidr -vf whitelist > blacklist
+	Create a blacklist, with whitelisted networks removed (inverse)
+
+grepcidr -f list1 list2
+	Cross-reference two lists, outputs IPs common to both lists

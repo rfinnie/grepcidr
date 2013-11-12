@@ -1,0 +1,27 @@
+Version 1.3
+===========
+- Much faster than past versions due to binary search of patterns
+- Decreased memory usage
+- Applied search improvements suggested by Dick Wesseling <ftu@fi.uu.nl>
+- Now supports IP ranges as well as CIDR format
+- Improved usage to be more grep-like (e.g. filename on command line)
+- Now uses grep-like exit code (0=ok, 1=no match, 2=error)
+
+
+Version 1.2
+===========
+- Improved algorithm for faster processing with large number of patterns
+  (approx. 50 times as fast on test set, with specs from diverse regions)
+
+
+version 1.1
+===========
+- New algorithm has increased speed by about 2.4 times!
+- Added -c (count) option, like grep
+- Reduced memory usage in case loading large files (-f)
+- Added simple Makefile
+
+
+version 1.0
+===========
+- First public release
