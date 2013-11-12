@@ -1,24 +1,24 @@
-#
-# Makefile for grepcidr
-#
+DESTDIR=
+PREFIX=/usr/local
+DATAROOTDIR=$(PREFIX)/share
+DATADIR=$(DATAROOTDIR)
+EXEC_PREFIX=$(PREFIX)
+BINDIR=$(EXEC_PREFIX)/bin
+SBINDIR=$(EXEC_PREFIX)/sbin
+MANDIR=$(DATAROOTDIR)/man
+INFODIR=$(DATAROOTDIR)/info
 
-# Set to where you'd like grepcidr installed
-INSTALLDIR=/usr/local/bin
+CPPFLAGS=
+CFLAGS=-Wall -Werror
+LDFLAGS=
 
-# Set to your favorite C compiler and flags
-CC=gcc
-CFLAGS=-s -O3 -Wall -pedantic
+all: grepcidr
 
-# End of settable values
+grepcidr: grepcidr.c
 
-grepcidr:
-	$(CC) $(CFLAGS) -o grepcidr grepcidr.c getopt.c
-
-all:	grepcidr
-
-install:	grepcidr
-	cp grepcidr $(INSTALLDIR)
+install: grepcidr
+	install -m 0755 -d $(DESTDIR)$(BINDIR)
+	install -m 0755 grepcidr $(DESTDIR)$(BINDIR)/grepcidr
 
 clean:
-	rm -f grepcidr *.o
-
+	$(RM) grepcidr *.o
