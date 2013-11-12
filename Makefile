@@ -16,9 +16,19 @@ all: grepcidr
 
 grepcidr: grepcidr.c
 
+doc: grepcidr.1
+
+grepcidr.1: grepcidr.sgml
+	docbook-to-man $< >$@
+
 install: grepcidr
 	install -m 0755 -d $(DESTDIR)$(BINDIR)
 	install -m 0755 grepcidr $(DESTDIR)$(BINDIR)/grepcidr
+	install -m 0755 -d $(DESTDIR)$(MANDIR)/man1
+	install -m 0644 grepcidr.1 $(DESTDIR)$(MANDIR)/man1/grepcidr.1
 
 clean:
 	$(RM) grepcidr *.o
+
+doc-clean:
+	$(RM) grepcidr.1
