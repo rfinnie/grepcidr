@@ -1,3 +1,10 @@
+Version 1.4
+===========
+- Match CIDR ranges anywhere on source lines, courtesy
+  Jeff Makey <jeff@sdsc.edu>
+- Packaging update rollup, courtesy Ryan Finnie <ryan@finnie.org>
+
+
 Version 1.3
 ===========
 - Much faster than past versions due to binary search of patterns

@@ -1,7 +1,7 @@
 /*
 
-  grepcidr 1.3 - Filter IP addresses matching IPv4 CIDR specification
-  Copyright (C) 2004, 2005  Jem E. Berkes <jberkes@pc-tools.net>
+  grepcidr 1.4 - Filter IP addresses matching IPv4 CIDR specification
+  Copyright (C) 2004 - 2013  Jem E. Berkes <jberkes@pc-tools.net>
   	www.sysdesign.ca
 
   This program is free software; you can redistribute it and/or modify
@@ -32,7 +32,7 @@
 #define EXIT_NOMATCH	1
 #define EXIT_ERROR	2
 
-#define TXT_VERSION	"grepcidr 1.3\nCopyright (C) 2004, 2005  Jem E. Berkes <jberkes@pc-tools.net>\n"
+#define TXT_VERSION	"grepcidr 1.4\nCopyright (C) 2004 - 2013  Jem E. Berkes <jberkes@pc-tools.net>\n"
 #define TXT_USAGE	"Usage:\n" \
 			"\tgrepcidr [-V] [-c] [-v] PATTERN [FILE]\n" \
 			"\tgrepcidr [-V] [-c] [-v] [-e PATTERN | -f FILE] [FILE]\n"
