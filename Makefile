@@ -14,7 +14,7 @@ LDFLAGS=
 
 all: grepcidr
 
-grepcidr: grepcidr.c
+grepcidr: grepcidr.o
 
 doc: grepcidr.1
 
